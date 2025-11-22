@@ -35,6 +35,7 @@ void executa_comando(char * comando, char * argumento) {
       // lógica pra tipo ARVORE
     } else if (strcmp(TIPO_INDICE, "lista") == 0) {
       // lógica para tipo LISTA
+      
     }
 
     if (achou) {

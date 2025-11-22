@@ -4,6 +4,7 @@
 #include <utils.h>
 
 #include "file.h"
+#include "lista_ligada.h"
 
 FILE * abre_arquivo(char * nomeArquivo) {
   FILE * in = fopen(nomeArquivo, "r");
@@ -30,14 +31,15 @@ void valida_args(int argc, char *argv[]) {
   strcpy(TIPO_INDICE, argv[2]);
 }
 
-void guarda_palavra(char * palavra) {
+void guarda_palavra(char * palavra, void * estrutura) {
   tolower_string(palavra);
   trim(palavra, ".,?:;!");
-
+  
   if (strcmp(TIPO_INDICE, "arvore") == 0) {
 
-  } else if (strcmp(TIPO_INDICE, "arvore") == 0) {
-
+  } else  {
+    // ListaLigada * estrutura_ligada = (ListaLigada *) estrutura;
+    insere_ligada(estrutura, palavra);
   }
 }
 
@@ -49,6 +51,13 @@ void carrega_dados(FILE * in, int num_linhas) {
 	char * quebra_de_linha;
 	char * palavra;	
 
+  if(strcmp(TIPO_INDICE, "arvore") == 0) {
+
+  } else {
+    estrutura = (ListaLigada *) estrutura;
+    estrutura = cria_lista_ligada();
+  }
+
   while (in && fgets(linha_atual, TAMANHO, in)){
     if( (quebra_de_linha = strrchr(linha_atual, '\n')) ) *quebra_de_linha = 0;
 
@@ -56,7 +65,7 @@ void carrega_dados(FILE * in, int num_linhas) {
     copia_ponteiro_linha = linha_atual;
 
     while ( (palavra = my_strsep(&copia_ponteiro_linha, " -/")) ) {
-      guarda_palavra(palavra);
+      guarda_palavra(palavra, estrutura);
     }
   }
 

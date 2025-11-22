@@ -7,11 +7,13 @@
 #include "comandos.h"
 #include "utils.h"
 #include "file.h"
+#include "lista_ligada.h"
 
 ListaSequencial * listaComandos;
 ListaSequencial * linhas;
 int num_linhas;
 char TIPO_INDICE[32];
+void * estrutura = NULL;
 
 
 int main(int argc, char ** argv){
@@ -26,11 +28,13 @@ int main(int argc, char ** argv){
   num_linhas = counting_lines(in);
   carrega_dados(in, num_linhas);
 
-  printf(">>>>> Arquivo carregado!\n");
-  printf("Arquivo: '%s'\n", argv[1]);
-  printf("Tipo de indice: '%s'\n", argv[2]);
-  printf("Numero de linhas no arquivo: %d\n", num_linhas);
-  printf("Total de palavras unicas indexadas: XXXXX\n");
+  imprime_ligada(estrutura);
+
+  // printf(">>>>> Arquivo carregado!\n");
+  // printf("Arquivo: '%s'\n", argv[1]);
+  // printf("Tipo de indice: '%s'\n", argv[2]);
+  // printf("Numero de linhas no arquivo: %d\n", num_linhas);
+  // printf("Total de palavras unicas indexadas: XXXXX\n");
   if (strcmp(TIPO_INDICE, "arvore") == 0) 
     printf("Altura da arvore: XXXX\n");
   

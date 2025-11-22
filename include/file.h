@@ -6,10 +6,11 @@
 
 extern char TIPO_INDICE[32];
 extern ListaSequencial * linhas;
+extern void * estrutura;
 
 FILE * abre_arquivo(char * nomeArquivo);
 void valida_args(int argc, char *argv[]);
-void guarda_palavra(char * palavra);
+void guarda_palavra(char * palavra, void * estrutura);
 void carrega_dados(FILE * in, int num_linhas);
 
 #endif
