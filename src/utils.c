@@ -31,6 +31,11 @@ char * my_strsep(char **stringp, const char *delim) {
   }
 }
 
+char * separa_string(char **stringp, const char *delim) {
+  char * s = my_strsep(stringp, delim);
+  return (!s || (s[0] == '\0')) ? NULL : s;
+}
+
 void trim(char *str, const char *trim_chars) {
   char *end;
 
@@ -56,18 +61,7 @@ void tolower_string(char *str) {
   }
 }
 
-int counting_lines(FILE * f) {
-  char c;
-  int count = 1;
+int max(int a, int b) {
 
-  // conta cada '\n'
-  do {
-    c = fgetc(f);
-    if (c == '\n') count++;
-  } while (c != EOF);
-
-  // volta para o início do arquivo
-  rewind(f);
-
-  return count;
+	return a > b ? a : b;
 }
