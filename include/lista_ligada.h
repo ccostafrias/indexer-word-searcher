@@ -7,19 +7,19 @@
 typedef int Boolean;
 typedef char* Elemento;
 
+typedef struct _lista_ligada_ ListaLigada;
+
 typedef struct _no_ {
 	Elemento valor;
 	int quantidade;
 	ListaLigada *linhas_texto;
 	struct _no_ * proximo;
-
 } No;
 
-typedef struct {
+struct _lista_ligada_ {
 	No * primeiro;
 	int tamanho;
-
-} ListaLigada;
+};
 
 ListaLigada * cria_lista_ligada();
 void destroi_lista(ListaLigada * lista);
