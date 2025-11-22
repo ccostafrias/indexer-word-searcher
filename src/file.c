@@ -5,6 +5,7 @@
 
 #include "file.h"
 #include "lista_ligada.h"
+#include "arvore_binaria.h"
 
 FILE * abre_arquivo(char * nomeArquivo) {
   FILE * in = fopen(nomeArquivo, "r");
@@ -31,14 +32,16 @@ void valida_args(int argc, char *argv[]) {
   strcpy(TIPO_INDICE, argv[2]);
 }
 
-void guarda_palavra(char * palavra, void * estrutura) {
+void guarda_palavra(char * palavra, void * estrutura, int * contador) {
   tolower_string(palavra);
   trim(palavra, ".,?:;!");
+
+  (*contador)++;
   
   if (strcmp(TIPO_INDICE, "arvore") == 0) {
-
-  } else  {
-    // ListaLigada * estrutura_ligada = (ListaLigada *) estrutura;
+    printf("%s %d\n", palavra, *contador);
+    insere_bin(estrutura, palavra);
+  } else if (strcmp(TIPO_INDICE, "lista") == 0) {
     insere_ligada(estrutura, palavra);
   }
 }
@@ -51,12 +54,15 @@ void carrega_dados(FILE * in, int num_linhas) {
 	char * quebra_de_linha;
 	char * palavra;	
 
-  if(strcmp(TIPO_INDICE, "arvore") == 0) {
-
+  if (strcmp(TIPO_INDICE, "arvore") == 0) {
+    estrutura = (Arvore *) estrutura;
+    estrutura = cria_arvore();
   } else {
     estrutura = (ListaLigada *) estrutura;
     estrutura = cria_lista_ligada();
   }
+
+  int contador = 0;
 
   while (in && fgets(linha_atual, TAMANHO, in)){
     if( (quebra_de_linha = strrchr(linha_atual, '\n')) ) *quebra_de_linha = 0;
@@ -64,11 +70,27 @@ void carrega_dados(FILE * in, int num_linhas) {
     push(linhas, linha_atual);
     copia_ponteiro_linha = linha_atual;
 
-    while ( (palavra = my_strsep(&copia_ponteiro_linha, " -/")) ) {
-      guarda_palavra(palavra, estrutura);
+    while ( (palavra = separa_string(&copia_ponteiro_linha, " -/")) ) {
+      guarda_palavra(palavra, estrutura, &contador);
     }
   }
 
   free(linha_atual);
   fclose(in);
+}
+
+int counting_lines(FILE * f) {
+  char c;
+  int count = 1;
+
+  // conta cada '\n'
+  do {
+    c = fgetc(f);
+    if (c == '\n') count++;
+  } while (c != EOF);
+
+  // volta para o início do arquivo
+  rewind(f);
+
+  return count;
 }
