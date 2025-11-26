@@ -5,9 +5,11 @@
 
 #define NUM_COMANDOS 10
 
-// importa variáveis globais
+// VARIÁVEIS GLOBAIS
 extern char TIPO_INDICE[];
 extern ListaSequencial * listaComandos;
+extern ListaSequencial * linhas;
+extern void * estrutura;
 
 Boolean valida_comando(char * comando);
 void executa_comando(char * comando, char * argumento);

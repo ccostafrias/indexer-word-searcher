@@ -4,10 +4,11 @@
 #include <ctype.h>
 
 #include "comandos.h"
-#include "lista_sequencial.h"
+#include "estrutura.h"
 #include "utils.h"
 
 void preenche_comandos() {
+  // TODO: adicionar comandos de 'print', 'help', 
   listaComandos = cria_lista(NUM_COMANDOS);
   push(listaComandos, "busca");
 }
@@ -24,24 +25,18 @@ Boolean valida_comando(char * comando) {
 }
 
 void executa_comando(char * comando, char * argumento) {
-  Boolean achou = FALSE;
   int comparacoes = 0;
   int ocorrencias = 0;
-  // ListaLigada * indiceLinhas;
   // TODO: implementar lista ligada para guardar o INDICE de todas as LINHAS onde foram encontradas
+  // ListaLigada * indiceLinhas;
   
   if (strcmp(comando, "busca") == 0) {
-    if (strcmp(TIPO_INDICE, "arvore") == 0) {
-      // lógica pra tipo ARVORE
-    } else if (strcmp(TIPO_INDICE, "lista") == 0) {
-      // lógica para tipo LISTA
-      
-    }
+    pega_dados_estrutura(argumento, &ocorrencias, &comparacoes);
 
-    if (achou) {
-      printf("Existe(m) %d ocorrencia(s) da palavra %s na(s) seguinte(s) linha(s):\n", ocorrencias, argumento);
-      // imprime_linhas(indiceLinhas);
+    if (ocorrencias >= 1) {
+      printf("Existe(m) %d ocorrencia(s) da palavra '%s' na(s) seguinte(s) linha(s):\n", ocorrencias, argumento);
       // TODO: criar função que imprime as linhas
+      // imprime_linhas(indiceLinhas);
     } else {
       printf("Palavra '%s' nao encontrada.\n", argumento);
     }
@@ -54,6 +49,7 @@ void pede_comando() {
   char comando[256];
   char argumento[256];
 
+  // TODO: ler comando igual lemos as linhas do arquivo, para evitar ficar palavras no buffer
   do {
     printf("> ");
     scanf(" %s", comando);

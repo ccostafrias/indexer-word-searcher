@@ -3,9 +3,8 @@
 #include <string.h>
 #include <utils.h>
 
+#include "estrutura.h"
 #include "file.h"
-#include "lista_ligada.h"
-#include "arvore_binaria.h"
 
 FILE * abre_arquivo(char * nomeArquivo) {
   FILE * in = fopen(nomeArquivo, "r");
@@ -32,37 +31,23 @@ void valida_args(int argc, char *argv[]) {
   strcpy(TIPO_INDICE, argv[2]);
 }
 
-void guarda_palavra(char * palavra, void * estrutura, int * contador) {
+void guarda_palavra(char * palavra, int linha) {
   tolower_string(palavra);
   trim(palavra, ".,?:;!");
-
-  (*contador)++;
   
-  if (strcmp(TIPO_INDICE, "arvore") == 0) {
-    printf("%s %d\n", palavra, *contador);
-    insere_bin(estrutura, palavra);
-  } else if (strcmp(TIPO_INDICE, "lista") == 0) {
-    insere_ligada(estrutura, palavra);
-  }
+  insere_estrutura(palavra, linha);
 }
 
 void carrega_dados(FILE * in, int num_linhas) {
   linhas = cria_lista(num_linhas);
 
+  int contador_linhas = 0;
   char * linha_atual = (char *) malloc((TAMANHO + 1) * sizeof(char));
   char * copia_ponteiro_linha;
 	char * quebra_de_linha;
 	char * palavra;	
 
-  if (strcmp(TIPO_INDICE, "arvore") == 0) {
-    estrutura = (Arvore *) estrutura;
-    estrutura = cria_arvore();
-  } else {
-    estrutura = (ListaLigada *) estrutura;
-    estrutura = cria_lista_ligada();
-  }
-
-  int contador = 0;
+  cria_estrutura();
 
   while (in && fgets(linha_atual, TAMANHO, in)){
     if( (quebra_de_linha = strrchr(linha_atual, '\n')) ) *quebra_de_linha = 0;
@@ -71,8 +56,10 @@ void carrega_dados(FILE * in, int num_linhas) {
     copia_ponteiro_linha = linha_atual;
 
     while ( (palavra = separa_string(&copia_ponteiro_linha, " -/")) ) {
-      guarda_palavra(palavra, estrutura, &contador);
+      guarda_palavra(palavra, contador_linhas);
     }
+
+    contador_linhas++;
   }
 
   free(linha_atual);

@@ -26,7 +26,7 @@ int display_rec(char ** buffer, NoBin * no, int level, double h_position){
 		offset = 1.0 / pow(2, level + 2);
 
 		ptr = buffer[1 + level * 3] + col;
-		sprintf(ptr, "%s (%d)", no->valor, no->c);
+		sprintf(ptr, "%s (%d)", no->valor, no->quantidade);
 		*(ptr + strlen(ptr)) = ' ';
 
 		if(no->esq || no->dir) *(buffer[2 + level * 3] + col + 1) = '|';
@@ -88,7 +88,8 @@ void display(Arvore * arvore) {
 Arvore * cria_arvore() {
 
 	Arvore * arvore = (Arvore *) malloc (sizeof(Arvore));
-	arvore->raiz = NULL;	
+	arvore->raiz = NULL;
+	arvore->len = 0;
 
 	return arvore;
 }
@@ -110,18 +111,25 @@ void imprime_bin(Arvore * arvore) {
 	printf("\n");
 }
 
-NoBin * busca_bin_rec(NoBin * no, Elemento e) {
+NoBin * busca_bin_rec(NoBin * no, Elemento e, int * comparacoes) {
 	if (!no) return NULL;
+	
+	(*comparacoes)++;
+	if (strcmp(no->valor, e) == 0) {
+		return no;
+	}
 
-	if(strcmp(no->valor, e) == 0) return no;
-	if(strcmp(no->valor, e) < 0) return busca_bin_rec(no->esq, e);
-	return busca_bin_rec(no->dir, e);
+	(*comparacoes)++;
+	if (strcmp(no->valor, e) > 0) {
+		return busca_bin_rec(no->esq, e, comparacoes);
+	}
+
+	return busca_bin_rec(no->dir, e, comparacoes);
 
 }
 
-NoBin * busca_bin(Arvore * arvore, Elemento e){
-	
-	return busca_bin_rec(arvore->raiz, e);	
+NoBin * busca_bin(Arvore * arvore, Elemento e, int * comparacoes){
+	return busca_bin_rec(arvore->raiz, e, comparacoes);	
 }
 
 int balanco(NoBin * no) {
@@ -139,6 +147,14 @@ void atualiza_altura(NoBin * no){
 	else if(no->dir) no->h = no->dir->h + 1;
 	else if(no->esq) no->h = no->esq->h + 1;
 	else no->h = 0;
+}
+
+int pega_altura(Arvore * arvore) {
+	return arvore->raiz->h;
+}
+
+int tamanho_arvore(Arvore * arvore) {
+	return arvore->len;
 }
 
 NoBin * rotacaoL(NoBin * p){
@@ -205,7 +221,7 @@ NoBin * rotacaoR(NoBin * p){
 
 Boolean insere_rec(NoBin * raiz, NoBin * novo) {
 	if (strcmp(novo->valor, raiz->valor) == 0) {
-		raiz->c++;
+		raiz->quantidade++;
 		free(novo);
 
 		return FALSE;
@@ -227,12 +243,13 @@ Boolean insere_rec(NoBin * raiz, NoBin * novo) {
 	return TRUE;
 }
 
-Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo) {
+Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo, int linha) {
 	Boolean r;
 	NoBin ** prox;
 
 	if (strcmp(novo->valor, raiz->valor) == 0) {
-		raiz->c++;
+		raiz->quantidade++;
+		// push_ligada_numerica(raiz->linhas_texto, linha);
 		free(novo);
 
 		return FALSE;
@@ -245,7 +262,7 @@ Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo)
 	}
 
 	if (*prox) {
-		r = insere_AVL_rec(arvore, *prox, raiz, novo);
+		r = insere_AVL_rec(arvore, *prox, raiz, novo, linha);
 		atualiza_altura(raiz);
 	} else {
 		*prox = novo;
@@ -270,22 +287,27 @@ Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo)
 	return r;
 }
 
-Boolean insere_bin(Arvore * arvore, Elemento e){
+Boolean insere_bin(Arvore * arvore, Elemento e, int linha){
 
 	NoBin * novo = (NoBin *) malloc(sizeof(NoBin));
 
 	novo->valor = (char *) malloc((strlen(e) + 1) * sizeof(char));
 	strcpy(novo->valor, e);
 
-	novo->c = 1;
+	// novo->linhas_texto = cria_lista_ligada_numerica();
+	novo->quantidade = 1;
 	novo->h = 0;
 	novo->esq = novo->dir = NULL;
 
 	if (arvore->raiz) {
 		// return insere_rec(arvore->raiz, novo);
-		return insere_AVL_rec(arvore, arvore->raiz, NULL, novo);
+		Boolean inseriu = insere_AVL_rec(arvore, arvore->raiz, NULL, novo, linha);
+		if (inseriu) arvore->len++;
+
+		return inseriu;
 	}
 		
 	arvore->raiz = novo;
+	arvore->len = 1;
 	return TRUE;
 }

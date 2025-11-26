@@ -15,7 +15,7 @@ typedef int Boolean;
 
 typedef struct _no_arvore_ {
 	Elemento valor;
-	int c;
+	int quantidade;
 	int h;
 
 	ListaLigada *linhas_texto;
@@ -26,14 +26,15 @@ typedef struct _no_arvore_ {
 
 typedef struct {
 	NoBin * raiz;
-	int h;
-
+	int len;
 } Arvore;
 
 Arvore * cria_arvore();
 void imprime_bin(Arvore * arvore);
-NoBin * busca_bin(Arvore * arvore, Elemento e);
-Boolean insere_bin(Arvore * arvore, Elemento e);
+NoBin * busca_bin(Arvore * arvore, Elemento e, int * comparacoes);
+Boolean insere_bin(Arvore * arvore, Elemento e, int linha);
+int pega_altura(Arvore * arvore);
+int tamanho_arvore(Arvore * arvore);
 
 void display(Arvore * arvore);
 
