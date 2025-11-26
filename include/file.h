@@ -4,9 +4,9 @@
 #include "lista_sequencial.h"
 #define TAMANHO 10000
 
+// VARIÁVEIS GLOBAIS
 extern char TIPO_INDICE[32];
 extern ListaSequencial * linhas;
-extern void * estrutura;
 
 FILE * abre_arquivo(char * nomeArquivo);
 void valida_args(int argc, char *argv[]);
