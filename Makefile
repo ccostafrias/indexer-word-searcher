@@ -3,6 +3,8 @@ CC = gcc
 # flags de compilação (ativam warnings e padrão C)
 CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 
+LDFLAGS = -lm
+
 # diretório final dos .o
 OBJDIR = build
 
@@ -19,7 +21,7 @@ OBJ = $(SRC:src/%.c=$(OBJDIR)/%.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(OBJDIR)/$(TARGET)
+	$(CC) $(CFLAGS) $(OBJ) -o $(OBJDIR)/$(TARGET) $(LDFLAGS)
 
 # Regra para compilar cada .c em .o (colocando os .o dentro de build/)
 $(OBJDIR)/%.o: src/%.c | $(OBJDIR)

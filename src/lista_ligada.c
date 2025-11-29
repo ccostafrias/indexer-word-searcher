@@ -69,6 +69,7 @@ Boolean insere_ligada(ListaLigada * lista, Elemento e){
 	if(lista->tamanho == 0){
 		novo->proximo = lista->primeiro;
 		lista->primeiro = novo;
+		lista->tamanho++;
 	}
 	else {
 		i = 0;
@@ -76,13 +77,19 @@ Boolean insere_ligada(ListaLigada * lista, Elemento e){
 		p = lista->primeiro;
 
 		while(i < antecessor){
+			if(strcmp(p->valor, e) == 0) {
+				p->quantidade++;
+				break;
+			}
 			i++;
 			p = p->proximo;
 		}
 	
-		novo->proximo = p->proximo;
-		p->proximo = novo;
+		if (i == antecessor) {
+			novo->proximo = p->proximo;
+			p->proximo = novo;
+			lista->tamanho++;
+		}
 	}
-	lista->tamanho++;
 	return TRUE;
 }
