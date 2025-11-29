@@ -16,17 +16,18 @@
 ListaSequencial * listaComandos;
 ListaSequencial * linhas;
 int num_linhas;
-char TIPO_INDICE[32]; // TODO: transformar TIPO_INDICE num ENUM
+TipoEstrutura TIPO;
 void * estrutura = NULL;
 
 int main(int argc, char ** argv){
 	FILE * in;
   
-  printf(">>>>> Carregando arquivo...\n");
-
   valida_args(argc, argv);
+
   in = abre_arquivo(argv[1]);
+  printf(">>>>> Carregando arquivo...\n");
   
+  cria_funcoes();
   preenche_comandos();
   num_linhas = counting_lines(in);
   carrega_dados(in, num_linhas);
@@ -35,14 +36,13 @@ int main(int argc, char ** argv){
     imprime_estrutura();
   #endif
 
-  printf(">>>>> Arquivo carregado!\n");
   printf("Arquivo: '%s'\n", argv[1]);
   printf("Tipo de indice: '%s'\n", argv[2]);
   printf("Numero de linhas no arquivo: %d\n", num_linhas);
   printf("Total de palavras unicas indexadas: %d\n", tamanho_estrutura(estrutura));
-  if (strcmp(TIPO_INDICE, "arvore") == 0) 
+  if (TIPO == ARVORE) 
     printf("Altura da arvore: %d\n", pega_altura(estrutura));
-  printf("Numero de comparacoes realizadas para a construcao do indice: XXXXX");
+  printf("Numero de comparacoes realizadas para a construcao do indice: XXXXX\n");
 
   // inicia serie de comandos
   pede_comando();

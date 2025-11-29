@@ -35,7 +35,8 @@ NoBin * busca_bin(Arvore * arvore, Elemento e, int * comparacoes);
 Boolean insere_bin(Arvore * arvore, Elemento e, int linha);
 int pega_altura(Arvore * arvore);
 int tamanho_arvore(Arvore * arvore);
+void dados_arvore(Arvore * arvore, char * palavra, int * ocorrencias, int * comparacoes);
 
-void display(Arvore * arvore);
+void display_arvore(Arvore * arvore);
 
 #endif

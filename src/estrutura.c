@@ -6,53 +6,42 @@
 #include "lista_ligada.h"
 #include "arvore_binaria.h"
 
-// TODO: mudar isso aqui (muito if feio demais)
+Operacoes ops_estruturas[NUM_ESTRUTURAS];
+
+void cria_funcoes() {
+	// ARVORE
+	ops_estruturas[ARVORE].cria =    cria_arvore;
+	ops_estruturas[ARVORE].insere =  insere_bin;
+	ops_estruturas[ARVORE].tamanho = tamanho_arvore;
+	ops_estruturas[ARVORE].imprime = display_arvore;
+	ops_estruturas[ARVORE].dados =   dados_arvore;
+
+	// LISTA LIGADA
+	// ops_estruturas[LIGADA].cria =    cria_lista_ligada;
+	// ops_estruturas[LIGADA].tamanho = tamanho_lista_ligada;
+	// ops_estruturas[LIGADA].imprime = imprime_ligada;
+	// ops_estruturas[LIGADA].insere =  insere_ligada;
+	// ops_estruturas[LIGADA].insere =  dados_ligada;
+
+	// HASH
+}
+
+void * cria_estrutura() {
+	return ops_estruturas[TIPO].cria();
+}
 
 int tamanho_estrutura() {
-  if (strcmp(TIPO_INDICE, "arvore") == 0) {
-    return tamanho_arvore(estrutura);
-
-  } else if (strcmp(TIPO_INDICE, "lista") == 0) {
-    // return tamanho_lista(estrutura);
-  }
-
-  return -1;
+	return ops_estruturas[TIPO].tamanho(estrutura);
 }
 
-void cria_estrutura() {
-	if (strcmp(TIPO_INDICE, "arvore") == 0) {
-    estrutura = cria_arvore();
-  } else if (strcmp(TIPO_INDICE, "lista") == 0) {
-    estrutura = cria_lista_ligada();
-  }
-}
-
-void insere_estrutura(char * palavra, int linha) {
-	if (strcmp(TIPO_INDICE, "arvore") == 0) {
-    insere_bin(estrutura, palavra, linha);
-  } else if (strcmp(TIPO_INDICE, "lista") == 0) {
-    insere_ligada(estrutura, palavra);
-  }
+Boolean insere_estrutura(char * palavra, int linha) {
+	return ops_estruturas[TIPO].insere(estrutura, palavra, linha);
 }
 
 void imprime_estrutura() {
-	if (strcmp(TIPO_INDICE, "arvore") == 0) {
-		display(estrutura);
-	} else if (strcmp(TIPO_INDICE, "lista") == 0) {
-		imprime_ligada(estrutura);
-	}
+	ops_estruturas[TIPO].imprime(estrutura);
 }
 
 void pega_dados_estrutura(char * palavra, int * ocorrencias, int * comparacoes) {
-	if (strcmp(TIPO_INDICE, "arvore") == 0) {
-		// TODO: enviar comparacoes como ponteiro para busca
-		NoBin * node = busca_bin(estrutura, palavra, comparacoes);
-
-		if (node) {
-			*ocorrencias = node->quantidade;
-		}
-		
-	} else if (strcmp(TIPO_INDICE, "lista") == 0) {
-		// lógica para tipo LISTA
-	}
+	ops_estruturas[TIPO].dados(estrutura, palavra, ocorrencias, comparacoes);
 }
