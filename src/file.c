@@ -17,18 +17,24 @@ FILE * abre_arquivo(char * nomeArquivo) {
   return in;
 }
 
+TipoEstrutura guarda_tipo(char * tipo_str) {
+  tolower_string(tipo_str);
+
+  if (strcmp(tipo_str, "arvore") == 0) return ARVORE;
+  if (strcmp(tipo_str, "lista") == 0) return LIGADA;
+  if (strcmp(tipo_str, "hash") == 0) return HASH;
+
+  printf("Tipo de estrutura desconhecido!\nTente as seguintes opções: 'arvore', 'lista', 'hash'\n");
+  exit(1);
+}
+
 void valida_args(int argc, char *argv[]) {
   	if (argc < 2) {
     printf("Invalido! Insira o caminho do arquivo e o tipo de indice!\n");
     exit(1);
   }
 
-  if (strcmp(argv[2], "arvore") != 0 && strcmp(argv[2], "lista") != 0) {
-    printf("Tipo de indice inválido!\n");
-    exit(1);
-  }
-
-  strcpy(TIPO_INDICE, argv[2]);
+  TIPO = guarda_tipo(argv[2]);
 }
 
 void guarda_palavra(char * palavra, int linha) {
@@ -47,7 +53,7 @@ void carrega_dados(FILE * in, int num_linhas) {
 	char * quebra_de_linha;
 	char * palavra;	
 
-  cria_estrutura();
+  estrutura = cria_estrutura();
 
   while (in && fgets(linha_atual, TAMANHO, in)){
     if( (quebra_de_linha = strrchr(linha_atual, '\n')) ) *quebra_de_linha = 0;

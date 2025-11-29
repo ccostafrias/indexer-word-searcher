@@ -75,7 +75,7 @@ void display_no(NoBin * no, FILE * fp){
 	printf("-----------------------------------------------------------------------------------------------\n");
 }
 
-void display(Arvore * arvore) {
+void display_arvore(Arvore * arvore) {
 	FILE *fp = fopen("build/arvore.out", "w");
 	display_no(arvore->raiz, fp);
 	fclose(fp);
@@ -310,4 +310,12 @@ Boolean insere_bin(Arvore * arvore, Elemento e, int linha){
 	arvore->raiz = novo;
 	arvore->len = 1;
 	return TRUE;
+}
+
+void dados_arvore(Arvore * arvore, char * palavra, int * ocorrencias, int * comparacoes) {
+	NoBin * node = busca_bin(arvore, palavra, comparacoes);
+
+	if (node) {
+		*ocorrencias = node->quantidade;
+	}
 }

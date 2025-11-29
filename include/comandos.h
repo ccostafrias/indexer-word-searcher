@@ -6,7 +6,6 @@
 #define NUM_COMANDOS 10
 
 // VARIÁVEIS GLOBAIS
-extern char TIPO_INDICE[];
 extern ListaSequencial * listaComandos;
 extern ListaSequencial * linhas;
 extern void * estrutura;

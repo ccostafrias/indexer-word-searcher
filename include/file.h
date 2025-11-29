@@ -2,10 +2,11 @@
 #define FILE_H
 
 #include "lista_sequencial.h"
+#include "estrutura.h"
 #define TAMANHO 10000
 
 // VARIÁVEIS GLOBAIS
-extern char TIPO_INDICE[32];
+extern TipoEstrutura TIPO;
 extern ListaSequencial * linhas;
 
 FILE * abre_arquivo(char * nomeArquivo);
