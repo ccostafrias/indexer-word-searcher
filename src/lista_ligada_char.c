@@ -4,19 +4,19 @@
 
 #include "lista_ligada_char.h"
 
-ListaLigada * cria_lista_ligada_char(){
+ListaLigadaChar * cria_lista_ligada_char(){
 
-    ListaLigada * lista =  (ListaLigada *) malloc (sizeof(ListaLigada));
+    ListaLigadaChar * lista =  (ListaLigadaChar *) malloc (sizeof(ListaLigadaChar));
     lista->primeiro = NULL;
     lista->tamanho = 0;
     
     return lista;
 }
 
-void destroi_lista(ListaLigada * lista){
+void destroi_ligada_char(ListaLigadaChar * lista){
 
-    No * p = lista->primeiro;
-    No * tmp;
+    NoChar * p = lista->primeiro;
+    NoChar * tmp;
 
     while(p){
         
@@ -28,9 +28,9 @@ void destroi_lista(ListaLigada * lista){
     free(lista);
 }
 
-void imprime_ligada(ListaLigada * lista){
+void imprime_ligada_char(ListaLigadaChar * lista){
 
-    No * p;
+    NoChar * p;
 
     printf("Lista:");
     int i = 0;
@@ -43,10 +43,10 @@ void imprime_ligada(ListaLigada * lista){
     printf("\n");
 }
 
-int busca_ligada(ListaLigada * lista, Elemento e){
+int busca_ligada_char(ListaLigadaChar * lista, ElementoChar e){
 
     int i = 0;
-    No * p = lista->primeiro;
+    NoChar * p = lista->primeiro;
 
     while(p && p->valor != e){
         p = p->proximo;
@@ -56,12 +56,12 @@ int busca_ligada(ListaLigada * lista, Elemento e){
     return p ? i : -1;
 }
 
-Boolean insere_ligada(ListaLigada * lista, Elemento e){
+Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e){
 
     int i, antecessor;
 
-    No * p;
-    No * novo = (No *) malloc(sizeof(No));
+    NoChar * p;
+    NoChar * novo = (NoChar *) malloc(sizeof(NoChar));
 
     novo->valor = (char *) malloc((strlen(e) + 1) * sizeof(char));
     strcpy(novo->valor, e);

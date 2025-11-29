@@ -1,7 +1,7 @@
 #ifndef ARVORE_BINARIA_H
 #define ARVORE_BINARIA_H
 
-#include "lista_ligada_char.h"
+#include "lista_ligada_int.h"
 
 #define FALSE 0
 #define TRUE 1
@@ -18,7 +18,7 @@ typedef struct _no_arvore_ {
 	int quantidade;
 	int h;
 
-	ListaLigada *linhas_texto;
+	ListaLigadaInt *linhas_texto;
 	struct _no_arvore_ * esq;
 	struct _no_arvore_ * dir;
 
