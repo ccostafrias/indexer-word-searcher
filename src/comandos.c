@@ -5,6 +5,7 @@
 
 #include "comandos.h"
 #include "estrutura.h"
+#include "lista_ligada_int.h"
 #include "utils.h"
 
 void preenche_comandos() {
@@ -27,16 +28,14 @@ Boolean valida_comando(char * comando) {
 void executa_comando(char * comando, char * argumento) {
   int comparacoes = 0;
   int ocorrencias = 0;
-  // TODO: implementar lista ligada para guardar o INDICE de todas as LINHAS onde foram encontradas
-  // ListaLigadaInt* indiceLinhas;
+  ListaLigadaInt * indiceLinhas;
   
   if (strcmp(comando, "busca") == 0) {
-    pega_dados_estrutura(argumento, &ocorrencias, &comparacoes);
+    pega_dados_estrutura(argumento, &ocorrencias, &comparacoes, &indiceLinhas);
 
     if (ocorrencias >= 1) {
       printf("Existe(m) %d ocorrencia(s) da palavra '%s' na(s) seguinte(s) linha(s):\n", ocorrencias, argumento);
-      // TODO: criar função que imprime as linhas
-      // imprime_linhas(indiceLinhas);
+      imprime_linhas(indiceLinhas);
     } else {
       printf("Palavra '%s' nao encontrada.\n", argumento);
     }

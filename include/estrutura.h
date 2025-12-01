@@ -1,6 +1,9 @@
 #ifndef ESTRUTURA_H
 #define ESTRUTURA_H
 
+#include "lista_ligada_int.h"
+#include "lista_sequencial.h"
+
 #define NUM_ESTRUTURAS 3
 
 // VARIÁVEIS GLOBAIS
@@ -13,8 +16,8 @@ typedef struct Operacoes {
   void   *(*cria)();
   void    (*imprime)(void * estrutura);
   int     (*tamanho)(void * estrutura);
-  void    (*dados)(void * estrutura, char * palavra, int * ocorrencias, int * comparacoes);
-  Boolean (*insere)(void * estrutura, char * palavra, int linha);
+  void    (*dados)(void * estrutura, char * palavra, int * ocorrencias, int * comparacoes, ListaLigadaInt ** indiceLinhas);
+  Boolean (*insere)(void * estrutura, char * palavra, int linha, int * comparacoes);
 } Operacoes;
 
 typedef enum {
@@ -24,12 +27,15 @@ typedef enum {
 } TipoEstrutura;
 
 extern TipoEstrutura TIPO;
+extern ListaSequencial * linhas;
 
 void * cria_estrutura();
 void cria_funcoes();
 void imprime_estrutura();
-void pega_dados_estrutura(char * palavra, int * ocorrencias, int * comparacoes);
+void pega_dados_estrutura(char * palavra, int * ocorrencias, int * comparacoes, ListaLigadaInt ** indiceLinhas);
 int tamanho_estrutura();
-Boolean insere_estrutura(char * palavra, int linha);
+Boolean insere_estrutura(char * palavra, int linha, int * comparacoes);
+
+void imprime_linhas(ListaLigadaInt * linhasNum);
 
 #endif

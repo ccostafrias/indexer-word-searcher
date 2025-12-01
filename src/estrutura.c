@@ -5,6 +5,7 @@
 #include "estrutura.h"
 #include "lista_ligada_char.h"
 #include "arvore_binaria.h"
+#include "lista_sequencial.h"
 
 Operacoes ops_estruturas[NUM_ESTRUTURAS];
 
@@ -34,14 +35,24 @@ int tamanho_estrutura() {
 	return ops_estruturas[TIPO].tamanho(estrutura);
 }
 
-Boolean insere_estrutura(char * palavra, int linha) {
-	return ops_estruturas[TIPO].insere(estrutura, palavra, linha);
+Boolean insere_estrutura(char * palavra, int linha, int * comparacoes) {
+	return ops_estruturas[TIPO].insere(estrutura, palavra, linha, comparacoes);
 }
 
 void imprime_estrutura() {
 	ops_estruturas[TIPO].imprime(estrutura);
 }
 
-void pega_dados_estrutura(char * palavra, int * ocorrencias, int * comparacoes) {
-	ops_estruturas[TIPO].dados(estrutura, palavra, ocorrencias, comparacoes);
+void pega_dados_estrutura(char * palavra, int * ocorrencias, int * comparacoes, ListaLigadaInt ** indiceLinhas) {
+	ops_estruturas[TIPO].dados(estrutura, palavra, ocorrencias, comparacoes, indiceLinhas);
+}
+
+void imprime_linhas(ListaLigadaInt * linhasNum) {
+	NoInt * p = linhasNum->primeiro;
+
+	for (int i = 0; i < linhasNum->tamanho; i++) {
+		printf("%05d: ", p->valor+1);
+		imprime_indice(linhas, p->valor);
+		p = p->proximo;
+	}
 }

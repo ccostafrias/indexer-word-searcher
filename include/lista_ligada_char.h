@@ -27,8 +27,8 @@ ListaLigadaChar * cria_lista_ligada_char();
 NoChar * busca_ligada_char(ListaLigadaChar * lista, ElementoChar e, int * comparacoes);
 void destroi_ligada_char(ListaLigadaChar * lista);
 void imprime_ligada_char(ListaLigadaChar * lista);
-void dados_ligada_char(ListaLigadaChar * lista, char * palavra, int * ocorrencias, int * comparacoes);
+void dados_ligada_char(ListaLigadaChar * lista, char * palavra, int * ocorrencias, int * comparacoes, ListaLigadaInt ** indiceLinhas);
 int tamanho_lista_ligada_char(ListaLigadaChar * lista);
-Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha);
+Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha, int * comparacoes);
 
 #endif

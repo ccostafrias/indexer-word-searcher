@@ -2,6 +2,7 @@
 #define COMANDOS_H
 
 #include "lista_sequencial.h"
+#include "lista_ligada_int.h"
 
 #define NUM_COMANDOS 10
 

@@ -44,14 +44,6 @@ void imprime_ligada_char(ListaLigadaChar * lista){
         if (p->proximo) {
             fprintf(fp, "\n");
         }
-
-        // NoInt *q = p->linhas_texto->primeiro;
-
-        // while (q) {
-        //     fprintf(fp, "[%d]: ", q->valor);
-        //     fprintf(fp, "\n");
-        //     q = q->proximo;
-        // }
         
         i++;
     }
@@ -75,12 +67,13 @@ int tamanho_lista_ligada_char(ListaLigadaChar * lista){
     return lista->tamanho;
 }
 
-Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha){
+Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha, int * comparacoes){
     
     NoChar * p = lista->primeiro;
     NoChar * anterior = NULL;
 
     while (p != NULL) {
+        (*comparacoes)++;
         if (strcmp(p->valor, e) == 0) {
             p->quantidade++;
             
@@ -119,10 +112,11 @@ Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha){
     return TRUE;
 }
 
-void dados_ligada_char(ListaLigadaChar * lista, char * palavra, int * ocorrencias, int * comparacoes) {
+void dados_ligada_char(ListaLigadaChar * lista, char * palavra, int * ocorrencias, int * comparacoes, ListaLigadaInt ** indiceLinhas) {
 	NoChar * node = busca_ligada_char(lista, palavra, comparacoes);
 
 	if (node) {
 		*ocorrencias = node->quantidade;
+		*indiceLinhas = node->linhas_texto;
 	}
 }

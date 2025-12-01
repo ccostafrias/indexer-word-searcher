@@ -37,14 +37,14 @@ void valida_args(int argc, char *argv[]) {
   TIPO = guarda_tipo(argv[2]);
 }
 
-void guarda_palavra(char * palavra, int linha) {
+void guarda_palavra(char * palavra, int linha, int * comparacoes) {
   tolower_string(palavra);
   trim(palavra, ".,?:;!");
   
-  insere_estrutura(palavra, linha);
+  insere_estrutura(palavra, linha, comparacoes);
 }
 
-void carrega_dados(FILE * in, int num_linhas) {
+void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
   linhas = cria_lista(num_linhas);
 
   int contador_linhas = 0;
@@ -62,7 +62,7 @@ void carrega_dados(FILE * in, int num_linhas) {
     copia_ponteiro_linha = linha_atual;
 
     while ( (palavra = separa_string(&copia_ponteiro_linha, " -/")) ) {
-      guarda_palavra(palavra, contador_linhas);
+      guarda_palavra(palavra, contador_linhas, comparacoes);
     }
 
     contador_linhas++;
