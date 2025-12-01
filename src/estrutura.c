@@ -31,7 +31,7 @@ void insere_estrutura(char * palavra, int linha) {
 	if (strcmp(TIPO_INDICE, "arvore") == 0) {
     insere_bin(estrutura, palavra, linha);
   } else if (strcmp(TIPO_INDICE, "lista") == 0) {
-    insere_ligada_char(estrutura, palavra);
+    insere_ligada_char(estrutura, palavra, linha);
   }
 }
 

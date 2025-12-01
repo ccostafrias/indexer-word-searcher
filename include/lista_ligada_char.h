@@ -27,6 +27,6 @@ ListaLigadaChar * cria_lista_ligada_char();
 void destroi_ligada_char(ListaLigadaChar * lista);
 void imprime_ligada_char(ListaLigadaChar * lista);
 int busca_ligada_char(ListaLigadaChar * lista, ElementoChar e);
-Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e);
+Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha);
 
 #endif

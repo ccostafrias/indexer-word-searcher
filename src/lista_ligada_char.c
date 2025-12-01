@@ -3,6 +3,10 @@
 #include <string.h>
 
 #include "lista_ligada_char.h"
+#include "lista_ligada_int.h"
+#include "lista_sequencial.h"
+
+extern ListaSequencial * linhas;
 
 ListaLigadaChar * cria_lista_ligada_char(){
 
@@ -32,11 +36,20 @@ void imprime_ligada_char(ListaLigadaChar * lista){
 
     NoChar * p;
 
-    printf("Lista:");
+    printf("Lista:\n");
     int i = 0;
     for(p = lista->primeiro; p; p = p->proximo){
+        printf("indice: %d, %s, %d\n", i, p->valor, p->quantidade);
 
-        printf("indice: %d, %s\n", i, p->valor);
+        NoInt *q = p->linhas_texto->primeiro;
+
+        while (q) {
+            printf("[%d]: ", q->valor);
+            imprime_indice(linhas, q->valor);
+            printf("\n");
+            q = q->proximo;
+        }
+        
         i++;
     }
 
@@ -56,40 +69,46 @@ int busca_ligada_char(ListaLigadaChar * lista, ElementoChar e){
     return p ? i : -1;
 }
 
-Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e){
+Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha){
+    
+    NoChar * p = lista->primeiro;
+    NoChar * anterior = NULL;
 
-    int i, antecessor;
+    while (p != NULL) {
+        if (strcmp(p->valor, e) == 0) {
+            p->quantidade++;
+            
+            if (p->linhas_texto == NULL) {
+                p->linhas_texto = cria_lista_ligada_int();
+            }
+            
+            insere_ligada_int(p->linhas_texto, linha);
+            
+            return TRUE;
+        }
+        
+        anterior = p;
+        p = p->proximo;
+    }
 
-    NoChar * p;
+
     NoChar * novo = (NoChar *) malloc(sizeof(NoChar));
-
+    
     novo->valor = (char *) malloc((strlen(e) + 1) * sizeof(char));
     strcpy(novo->valor, e);
     
-    if(lista->tamanho == 0){
-        novo->proximo = lista->primeiro;
-        lista->primeiro = novo;
-        lista->tamanho++;
-    }
-    else {
-        i = 0;
-        antecessor = lista->tamanho - 1;
-        p = lista->primeiro;
-
-        while(i < antecessor){
-            if(strcmp(p->valor, e) == 0) {
-                p->quantidade++;
-                break;
-            }
-            i++;
-            p = p->proximo;
-        }
+    novo->quantidade = 1;
+    novo->proximo = NULL;
     
-        if (i == antecessor) {
-            novo->proximo = p->proximo;
-            p->proximo = novo;
-            lista->tamanho++;
-        }
+    novo->linhas_texto = cria_lista_ligada_int();
+    insere_ligada_int(novo->linhas_texto, linha);
+
+    if (anterior == NULL) {
+        lista->primeiro = novo;
+    } else {
+        anterior->proximo = novo;
     }
+
+    lista->tamanho++;
     return TRUE;
 }
