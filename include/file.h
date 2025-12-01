@@ -11,7 +11,7 @@ extern ListaSequencial * linhas;
 
 FILE * abre_arquivo(char * nomeArquivo);
 void valida_args(int argc, char *argv[]);
-void carrega_dados(FILE * in, int num_linhas);
+void carrega_dados(FILE * in, int num_linhas, int * comparacoes);
 int counting_lines(FILE * f);
 
 #endif

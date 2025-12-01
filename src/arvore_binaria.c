@@ -219,42 +219,20 @@ NoBin * rotacaoR(NoBin * p){
 	return NULL;
 }
 
-Boolean insere_rec(NoBin * raiz, NoBin * novo) {
-	if (strcmp(novo->valor, raiz->valor) == 0) {
-		raiz->quantidade++;
-		free(novo);
-
-		return FALSE;
-	}
-
-	NoBin ** prox;
-
-	if (strcmp(novo->valor, raiz->valor) < 0) {
-		prox = &raiz->esq;
-	} else {
-		prox = &raiz->dir;
-	}
-
-	if (*prox) {
-		return insere_rec(*prox, novo);
-	}
-
-	*prox = novo;
-	return TRUE;
-}
-
-Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo, int linha) {
+Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo, int linha, int * comparacoes) {
 	Boolean r;
 	NoBin ** prox;
 
+	(*comparacoes)++;
 	if (strcmp(novo->valor, raiz->valor) == 0) {
 		raiz->quantidade++;
-		// push_ligada_numerica(raiz->linhas_texto, linha);
+		insere_ligada_int(raiz->linhas_texto, linha);
 		free(novo);
 
 		return FALSE;
 	}
 
+	(*comparacoes)++;
 	if (strcmp(novo->valor, raiz->valor) < 0) {
 		prox = &raiz->esq;
 	} else {
@@ -262,7 +240,7 @@ Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo,
 	}
 
 	if (*prox) {
-		r = insere_AVL_rec(arvore, *prox, raiz, novo, linha);
+		r = insere_AVL_rec(arvore, *prox, raiz, novo, linha, comparacoes);
 		atualiza_altura(raiz);
 	} else {
 		*prox = novo;
@@ -287,21 +265,22 @@ Boolean insere_AVL_rec(Arvore * arvore, NoBin * raiz, NoBin * pai, NoBin * novo,
 	return r;
 }
 
-Boolean insere_bin(Arvore * arvore, Elemento e, int linha){
+Boolean insere_bin(Arvore * arvore, Elemento e, int linha, int * comparacoes){
 
 	NoBin * novo = (NoBin *) malloc(sizeof(NoBin));
 
 	novo->valor = (char *) malloc((strlen(e) + 1) * sizeof(char));
 	strcpy(novo->valor, e);
 
-	// novo->linhas_texto = cria_lista_ligada_numerica();
+	novo->linhas_texto = cria_lista_ligada_int();
+	insere_ligada_int(novo->linhas_texto, linha);
+
 	novo->quantidade = 1;
 	novo->h = 0;
 	novo->esq = novo->dir = NULL;
 
 	if (arvore->raiz) {
-		// return insere_rec(arvore->raiz, novo);
-		Boolean inseriu = insere_AVL_rec(arvore, arvore->raiz, NULL, novo, linha);
+		Boolean inseriu = insere_AVL_rec(arvore, arvore->raiz, NULL, novo, linha, comparacoes);
 		if (inseriu) arvore->len++;
 
 		return inseriu;
@@ -312,10 +291,11 @@ Boolean insere_bin(Arvore * arvore, Elemento e, int linha){
 	return TRUE;
 }
 
-void dados_arvore(Arvore * arvore, char * palavra, int * ocorrencias, int * comparacoes) {
+void dados_arvore(Arvore * arvore, char * palavra, int * ocorrencias, int * comparacoes, ListaLigadaInt ** indiceLinhas) {
 	NoBin * node = busca_bin(arvore, palavra, comparacoes);
 
 	if (node) {
 		*ocorrencias = node->quantidade;
+		*indiceLinhas = node->linhas_texto;
 	}
 }

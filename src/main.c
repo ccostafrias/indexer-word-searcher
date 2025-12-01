@@ -30,7 +30,9 @@ int main(int argc, char ** argv){
   cria_funcoes();
   preenche_comandos();
   num_linhas = counting_lines(in);
-  carrega_dados(in, num_linhas);
+
+  int comparacoes = 0;
+  carrega_dados(in, num_linhas, &comparacoes);
 
   #ifdef DEBUG
     imprime_estrutura();
@@ -42,7 +44,7 @@ int main(int argc, char ** argv){
   printf("Total de palavras unicas indexadas: %d\n", tamanho_estrutura(estrutura));
   if (TIPO == ARVORE) 
     printf("Altura da arvore: %d\n", pega_altura(estrutura));
-  printf("Numero de comparacoes realizadas para a construcao do indice: XXXXX\n");
+  printf("Numero de comparacoes realizadas para a construcao do indice: %d\n", comparacoes);
 
   // inicia serie de comandos
   pede_comando();
