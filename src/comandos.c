@@ -28,7 +28,7 @@ void executa_comando(char * comando, char * argumento) {
   int comparacoes = 0;
   int ocorrencias = 0;
   // TODO: implementar lista ligada para guardar o INDICE de todas as LINHAS onde foram encontradas
-  // ListaLigada * indiceLinhas;
+  // ListaLigadaInt* indiceLinhas;
   
   if (strcmp(comando, "busca") == 0) {
     pega_dados_estrutura(argumento, &ocorrencias, &comparacoes);

@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "estrutura.h"
-#include "lista_ligada.h"
+#include "lista_ligada_char.h"
 #include "arvore_binaria.h"
 
 Operacoes ops_estruturas[NUM_ESTRUTURAS];
@@ -17,12 +17,12 @@ void cria_funcoes() {
 	ops_estruturas[ARVORE].dados =   dados_arvore;
 
 	// LISTA LIGADA
-	// ops_estruturas[LIGADA].cria =    cria_lista_ligada;
-	// ops_estruturas[LIGADA].tamanho = tamanho_lista_ligada;
-	// ops_estruturas[LIGADA].imprime = imprime_ligada;
-	// ops_estruturas[LIGADA].insere =  insere_ligada;
-	// ops_estruturas[LIGADA].insere =  dados_ligada;
-
+	ops_estruturas[LIGADA].cria =    cria_lista_ligada_char;
+	ops_estruturas[LIGADA].tamanho = tamanho_lista_ligada_char;
+	ops_estruturas[LIGADA].imprime = imprime_ligada_char;
+	ops_estruturas[LIGADA].insere =  insere_ligada_char;
+	ops_estruturas[LIGADA].dados =  dados_ligada_char;
+	
 	// HASH
 }
 

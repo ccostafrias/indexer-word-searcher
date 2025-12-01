@@ -1,7 +1,7 @@
 #ifndef ARVORE_BINARIA_H
 #define ARVORE_BINARIA_H
 
-#include "lista_ligada.h"
+#include "lista_ligada_int.h"
 
 #define FALSE 0
 #define TRUE 1
@@ -18,7 +18,7 @@ typedef struct _no_arvore_ {
 	int quantidade;
 	int h;
 
-	ListaLigada *linhas_texto;
+	ListaLigadaInt *linhas_texto;
 	struct _no_arvore_ * esq;
 	struct _no_arvore_ * dir;
 
@@ -30,12 +30,12 @@ typedef struct {
 } Arvore;
 
 Arvore * cria_arvore();
-void imprime_bin(Arvore * arvore);
 NoBin * busca_bin(Arvore * arvore, Elemento e, int * comparacoes);
-Boolean insere_bin(Arvore * arvore, Elemento e, int linha);
+void imprime_bin(Arvore * arvore);
+void dados_arvore(Arvore * arvore, char * palavra, int * ocorrencias, int * comparacoes);
 int pega_altura(Arvore * arvore);
 int tamanho_arvore(Arvore * arvore);
-void dados_arvore(Arvore * arvore, char * palavra, int * ocorrencias, int * comparacoes);
+Boolean insere_bin(Arvore * arvore, Elemento e, int linha);
 
 void display_arvore(Arvore * arvore);
 

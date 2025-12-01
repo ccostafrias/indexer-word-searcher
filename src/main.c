@@ -7,7 +7,7 @@
 #include "comandos.h"
 #include "utils.h"
 #include "file.h"
-#include "lista_ligada.h"
+#include "lista_ligada_char.h"
 #include "arvore_binaria.h"
 #include "estrutura.h"
 
