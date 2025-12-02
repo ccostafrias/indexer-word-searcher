@@ -21,7 +21,6 @@ struct _lista_ligada_int_ {
 
 ListaLigadaInt * cria_lista_ligada_int();
 void destroi_ligada_int(ListaLigadaInt * lista);
-void imprime_ligada_int(ListaLigadaInt * lista);
 Boolean insere_ligada_int(ListaLigadaInt * lista, ElementoInt e);
 
 #endif

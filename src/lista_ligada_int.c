@@ -28,46 +28,30 @@ void destroi_ligada_int(ListaLigadaInt * lista){
     free(lista);
 }
 
-void imprime_ligada_int(ListaLigadaInt * lista){
+Boolean insere_ligada_int(ListaLigadaInt * lista, ElementoInt e){
+    
+    NoInt * p = lista->primeiro;
+    NoInt * anterior = NULL;
+    
+    while (p != NULL) {
+        if (p->valor == e) {
+            return TRUE;
+        }
 
-    NoInt * p;
-
-    printf("Lista:");
-    int i = 0;
-    for(p = lista->primeiro; p; p = p->proximo){
-
-        printf("indice: %d, %s\n", i, p->valor);
-        i++;
+        anterior = p;
+        p = p->proximo;
     }
 
-    printf("\n");
-}
-
-Boolean insere_ligada_int(ListaLigadaInt * lista, ElementoInt e){
-
-    int i, antecessor;
-
-    NoInt * p;
     NoInt * novo = (NoInt *) malloc(sizeof(NoInt));
     novo->valor = e;
+    novo->proximo = NULL;
 
-    
-    if(lista->tamanho == 0){
-        novo->proximo = lista->primeiro;
-        lista->primeiro = novo;
+    if (anterior == NULL) {
+        lista->primeiro = novo; 
+    } else {
+        anterior->proximo = novo;
     }
-    else {
-        i = 0;
-        antecessor = lista->tamanho - 1;
-        p = lista->primeiro;
 
-        while(i < antecessor){
-            i++;
-            p = p->proximo;
-        }
-        novo->proximo = p->proximo;
-        p->proximo = novo;
-    }
     lista->tamanho++;
     return TRUE;
 }
