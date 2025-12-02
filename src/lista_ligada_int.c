@@ -35,7 +35,7 @@ Boolean insere_ligada_int(ListaLigadaInt * lista, ElementoInt e){
     
     while (p != NULL) {
         if (p->valor == e) {
-            return TRUE;
+            return FALSE;
         }
 
         anterior = p;

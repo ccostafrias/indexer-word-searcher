@@ -11,6 +11,12 @@ extern void * estrutura;
 
 typedef int Boolean;
 
+typedef void * (*FuncaoCria)();
+typedef void (*FuncaoImprime)(void *);
+typedef void (*FuncaoDados)(void *, char *, int *, int *, ListaLigadaInt **);
+typedef int (*FuncaoTamanho)(void *);
+typedef Boolean (*FuncaoInsere)(void *, char *, int, int *);
+
 // guarda ponteiros genérios para todas as operações possíveis em cada estrutura
 typedef struct Operacoes {
   void   *(*cria)();
