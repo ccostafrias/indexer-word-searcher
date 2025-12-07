@@ -32,7 +32,7 @@ void destroi_ligada_char(ListaLigadaChar * lista){
     free(lista);
 }
 
-void imprime_ligada_char(ListaLigadaChar * lista){
+void display_ligada_char(ListaLigadaChar * lista){
 	FILE *fp = fopen("build/lista.out", "w");
     NoChar * p;
 
@@ -49,6 +49,17 @@ void imprime_ligada_char(ListaLigadaChar * lista){
     }
 
     fclose(fp);
+}
+
+void imprime_ligada_char(ListaLigadaChar * lista){
+    NoChar * p;
+
+    printf("Elementos na lista:\n");
+    int i = 1;
+    for (p = lista->primeiro; p; p = p->proximo){
+        printf("| idx: %03d | %-16s | qtd: %02d |\n", i, p->valor, p->quantidade);
+        i++;
+    }
 }
 
 NoChar * busca_ligada_char(ListaLigadaChar * lista, ElementoChar e, int * comparacoes){
@@ -73,8 +84,8 @@ Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha, i
     NoChar * anterior = NULL;
 
     while (p != NULL) {
-        (*comparacoes)++;
-        if (strcmp(p->valor, e) == 0) {
+        if (comparacoes) (*comparacoes)++;
+        if (linha != -1 && strcmp(p->valor, e) == 0) {
             p->quantidade++;
             
             if (p->linhas_texto == NULL) {
@@ -83,7 +94,7 @@ Boolean insere_ligada_char(ListaLigadaChar * lista, ElementoChar e, int linha, i
             
             insere_ligada_int(p->linhas_texto, linha);
             
-            return TRUE;
+            return FALSE;
         }
         
         anterior = p;

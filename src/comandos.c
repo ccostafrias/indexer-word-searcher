@@ -4,59 +4,111 @@
 #include <ctype.h>
 
 #include "comandos.h"
-#include "estrutura.h"
-#include "lista_ligada_int.h"
-#include "utils.h"
 
-void preenche_comandos() {
-  // TODO: adicionar comandos de 'print', 'help', 
-  listaComandos = cria_lista(NUM_COMANDOS);
-  push(listaComandos, "busca");
-}
+// ====================================
+// == COMANDOS
+// ====================================
 
-Boolean valida_comando(char * comando) {
-  if (strcmp(comando, "fim") == 0) return FALSE;
+const Comando comandos[NUM_COMANDOS];
 
-  int achouComando = busca_sequencial(listaComandos, comando);
-  if (achouComando == -1) {
-    printf("Opcao invalida!\n");
-    return FALSE;
-  }
-  return TRUE;
-}
+void executa_comando_busca(ListaLigadaChar * linhaComandos) {
+  NoChar * proximo = linhaComandos->primeiro->proximo;
 
-void executa_comando(char * comando, char * argumento) {
+  char * palavra = proximo->valor;
+
   int comparacoes = 0;
   int ocorrencias = 0;
   ListaLigadaInt * indiceLinhas;
-  
-  if (strcmp(comando, "busca") == 0) {
-    pega_dados_estrutura(argumento, &ocorrencias, &comparacoes, &indiceLinhas);
 
-    if (ocorrencias >= 1) {
-      printf("Existe(m) %d ocorrencia(s) da palavra '%s' na(s) seguinte(s) linha(s):\n", ocorrencias, argumento);
-      imprime_linhas(indiceLinhas);
-    } else {
-      printf("Palavra '%s' nao encontrada.\n", argumento);
-    }
+  pega_dados_estrutura(palavra, &ocorrencias, &comparacoes, &indiceLinhas);
 
-    printf("Numero de comparacoes: %d\n", comparacoes);
+  if (ocorrencias > 0) {
+    printf("Existe(m) %d ocorrencia(s) da palavra '%s' na(s) seguinte(s) linha(s):\n", ocorrencias, palavra);
+    imprime_linhas(indiceLinhas);
+  } else {
+    printf("Palavra '%s' nao encontrada.\n", palavra);
+  }
+
+  printf("Numero de comparacoes: %d\n", comparacoes);
+}
+
+void executa_comando_fim() {
+  exit(0);
+}
+
+void executa_comando_print(ListaLigadaChar * linhaComandos) {
+  imprime_estrutura();
+}
+
+void executa_comando_help() {
+  for (int i = 0; i < NUM_COMANDOS; i++) {
+    printf("%-10s %s\n", comandos[i].nome, comandos[i].descricao);
   }
 }
 
+// ====================================
+// == FUNÇÕES GERAIS
+// ====================================
+
+const Comando comandos[NUM_COMANDOS] = {
+  [CMD_BUSCA] = { "busca", executa_comando_busca, "Procura por uma palavra dentro do texto",  2 },
+  [CMD_PRINT] = { "print", executa_comando_print, "Imprime cada palavra encontrada no texto", 1 },
+  [CMD_HELP]  = { "help",  executa_comando_help,  "Mostra a lista de comandos disponiveis",   1 },
+  [CMD_FIM]   = { "fim",   executa_comando_fim,   "Finaliza o programa",                      1 },
+};
+
+int encontra_comando_idx(const char * nome) {
+  for (int i = 0; i < NUM_COMANDOS; i++) {
+    if (strcmp(nome, comandos[i].nome) == 0) 
+      return i;
+  }
+
+  return -1;
+}
+
+void chama_comando(ListaLigadaChar * linhaComandos) {
+  if (linhaComandos == NULL || linhaComandos->primeiro == NULL) {
+    printf("Comando vazio!\n");
+    return;
+  }
+  
+  char * comando = linhaComandos->primeiro->valor;
+  int idx = encontra_comando_idx(comando);
+
+  // comando nao encontrado
+  if (idx < 0) {
+    printf("Opcao invalida!\n");
+    return;
+  }
+
+  // numeros de argumentos passado menor do que o necessario
+  if (tamanho_lista_ligada_char(linhaComandos) < comandos[idx].args) {
+    printf("Argumentos insuficientes\n");
+    return;
+  }
+
+  comandos[idx].func(linhaComandos);
+}
+
 void pede_comando() {
-  char comando[256];
-  char argumento[256];
+  char * buffer = (char *) malloc(256 * sizeof(char));
+  char * cursor;
+  char * palavra;
 
-  // TODO: ler comando igual lemos as linhas do arquivo, para evitar ficar palavras no buffer
-  do {
+  while (TRUE) {
     printf("> ");
-    scanf(" %s", comando);
-    tolower_string(comando);
-    if (!valida_comando(comando)) continue;
-    scanf(" %s", argumento);
-    tolower_string(argumento);
-    executa_comando(comando, argumento);
+    scanf(" %255[^\n]", buffer);
 
-  } while (strcmp(comando, "fim") != 0);
+    cursor = buffer;
+    ListaLigadaChar * linhaComandos = cria_lista_ligada_char();
+
+    // pegamos a frase recebida e transformamos cada palavras em tokens, que serão armazenados
+    while ( (palavra = separa_string(&cursor, " -/")) ) {
+      tolower_string(palavra);
+      insere_ligada_char(linhaComandos, palavra, -1, NULL);
+    }
+
+    chama_comando(linhaComandos);
+    destroi_ligada_char(linhaComandos);
+  }
 }

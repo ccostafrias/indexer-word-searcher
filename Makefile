@@ -1,7 +1,7 @@
 # compilador
 CC = gcc
 # flags de compilação (ativam warnings e padrão C)
-CFLAGS = -Wall -Wextra -std=c11 -Iinclude
+CFLAGS = -Wall -Wextra -std=c11 -Iinclude -Wno-unused-parameter
 
 LDFLAGS = -lm
 

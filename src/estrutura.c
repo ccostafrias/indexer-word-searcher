@@ -3,29 +3,25 @@
 #include <string.h>
 
 #include "estrutura.h"
-#include "lista_ligada_char.h"
-#include "arvore_binaria.h"
-#include "lista_sequencial.h"
 
-Operacoes ops_estruturas[NUM_ESTRUTURAS];
-
-void cria_funcoes() {
-	// ARVORE
-	ops_estruturas[ARVORE].cria =    (FuncaoCria) cria_arvore;
-	ops_estruturas[ARVORE].insere =  (FuncaoInsere) insere_bin;
-	ops_estruturas[ARVORE].tamanho = (FuncaoTamanho) tamanho_arvore;
-	ops_estruturas[ARVORE].imprime = (FuncaoImprime) display_arvore;
-	ops_estruturas[ARVORE].dados =   (FuncaoDados) dados_arvore;
-
-	// LISTA LIGADA
-	ops_estruturas[LIGADA].cria =    (FuncaoCria) cria_lista_ligada_char;
-	ops_estruturas[LIGADA].tamanho = (FuncaoTamanho) tamanho_lista_ligada_char;
-	ops_estruturas[LIGADA].imprime = (FuncaoImprime) imprime_ligada_char;
-	ops_estruturas[LIGADA].insere =  (FuncaoInsere) insere_ligada_char;
-	ops_estruturas[LIGADA].dados =   (FuncaoDados) dados_ligada_char;
-	
-	// HASH
-}
+const Operacoes ops_estruturas[NUM_ESTRUTURAS] = {
+	[ARVORE] = {
+		.cria = (FuncaoCria) cria_arvore,
+		.insere = (FuncaoInsere) insere_bin,
+		.tamanho = (FuncaoTamanho) tamanho_arvore,
+		.display = (FuncaoDisplay) display_arvore,
+		.imprime = (FuncaoImprime) imprime_arvore,
+		.dados = (FuncaoDados) dados_arvore
+	},
+	[LIGADA] = {
+		.cria = (FuncaoCria) cria_lista_ligada_char,
+		.tamanho = (FuncaoTamanho) tamanho_lista_ligada_char,
+		.display = (FuncaoDisplay) display_ligada_char,
+		.imprime = (FuncaoImprime) imprime_ligada_char,
+		.insere = (FuncaoInsere) insere_ligada_char,
+		.dados = (FuncaoDados) dados_ligada_char
+	},
+};
 
 void * cria_estrutura() {
 	return ops_estruturas[TIPO].cria();
@@ -37,6 +33,10 @@ int tamanho_estrutura() {
 
 Boolean insere_estrutura(char * palavra, int linha, int * comparacoes) {
 	return ops_estruturas[TIPO].insere(estrutura, palavra, linha, comparacoes);
+}
+
+void display_estrutura() {
+	ops_estruturas[TIPO].display(estrutura);
 }
 
 void imprime_estrutura() {

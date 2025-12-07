@@ -41,7 +41,6 @@ Boolean push(ListaSequencial * lista, Elemento e){
 	if (lista->livre >= lista->capacidade) return FALSE;
 
 	lista->a[lista->livre] = (char*) malloc((strlen(e) + 1) * sizeof(char));
-
 	strcpy(lista->a[lista->livre], e);
 
 	lista->livre++;

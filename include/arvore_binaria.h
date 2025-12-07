@@ -31,7 +31,7 @@ typedef struct {
 
 Arvore * cria_arvore();
 NoBin * busca_bin(Arvore * arvore, Elemento e, int * comparacoes);
-void imprime_bin(Arvore * arvore);
+void imprime_arvore(Arvore * arvore);
 void dados_arvore(Arvore * arvore, char * palavra, int * ocorrencias, int * comparacoes, ListaLigadaInt ** indiceLinhas);
 int pega_altura(Arvore * arvore);
 int tamanho_arvore(Arvore * arvore);

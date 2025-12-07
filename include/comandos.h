@@ -2,18 +2,32 @@
 #define COMANDOS_H
 
 #include "lista_sequencial.h"
+#include "lista_ligada_char.h"
 #include "lista_ligada_int.h"
+#include "estrutura.h"
+#include "utils.h"
 
-#define NUM_COMANDOS 10
+typedef enum {
+  CMD_BUSCA,
+  CMD_PRINT,
+  CMD_HELP,
+  CMD_FIM,
+  NUM_COMANDOS,
+} ComandoID;
+
+typedef void (*FuncaoComando)(ListaLigadaChar * args);
+
+typedef struct {
+  const char * nome;
+  const FuncaoComando func;
+  const char * descricao;
+  const int args;
+} Comando;
 
 // VARIÁVEIS GLOBAIS
-extern ListaSequencial * listaComandos;
 extern ListaSequencial * linhas;
 extern void * estrutura;
 
-Boolean valida_comando(char * comando);
-void executa_comando(char * comando, char * argumento);
-void preenche_comandos();
 void pede_comando();
 
 #endif

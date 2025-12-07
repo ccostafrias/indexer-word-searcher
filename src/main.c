@@ -13,9 +13,7 @@
 
 #define DEBUG
 
-ListaSequencial * listaComandos;
 ListaSequencial * linhas;
-int num_linhas;
 TipoEstrutura TIPO;
 void * estrutura = NULL;
 
@@ -25,19 +23,17 @@ int main(int argc, char ** argv){
   valida_args(argc, argv);
 
   in = abre_arquivo(argv[1]);
-  printf(">>>>> Carregando arquivo...\n");
+  printf(">>>>> Carregando arquivo...\n---------------------------\n");
   
-  cria_funcoes();
-  preenche_comandos();
-  num_linhas = counting_lines(in);
-
+  int num_linhas = counting_lines(in);
   int comparacoes = 0;
   carrega_dados(in, num_linhas, &comparacoes);
 
   #ifdef DEBUG
-    imprime_estrutura();
+    display_estrutura();
   #endif
 
+  // imprime dados principais da estrutura
   printf("Arquivo: '%s'\n", argv[1]);
   printf("Tipo de indice: '%s'\n", argv[2]);
   printf("Numero de linhas no arquivo: %d\n", num_linhas);
@@ -51,7 +47,6 @@ int main(int argc, char ** argv){
 
   // libera na memoria
   destroi_sequencial(linhas);
-  destroi_sequencial(listaComandos);
 
   return 0;
 }

@@ -72,7 +72,6 @@ void display_no(NoBin * no, FILE * fp){
 	r = display_rec(buffer, no, 0, 0.5);
 
 	for(i = 0; i < 3 * r; i++) fprintf(fp, "%s\n", buffer[i]);
-	printf("-----------------------------------------------------------------------------------------------\n");
 }
 
 void display_arvore(Arvore * arvore) {
@@ -99,14 +98,14 @@ void imprime_rec(NoBin * no) {
 
 	if (no){
 		imprime_rec(no->esq);
-		printf(" %s", no->valor);
+		printf("| altura: %03d | %-16s | qtd: %02d |\n", no->h, no->valor, no->quantidade);
 		imprime_rec(no->dir);
 	}
 }
 
-void imprime_bin(Arvore * arvore) {
+void imprime_arvore(Arvore * arvore) {
 
-	printf("Elementos na arvore:");
+	printf("Elementos na arvore:\n");
 	imprime_rec(arvore->raiz);
 	printf("\n");
 }
