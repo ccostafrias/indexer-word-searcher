@@ -5,6 +5,7 @@
 #include "lista_ligada_int.h"
 #include "lista_ligada_char.h"
 #include "arvore_binaria.h"
+#include "hash.h"
 
 // VARIÁVEIS GLOBAIS
 extern void * estrutura;

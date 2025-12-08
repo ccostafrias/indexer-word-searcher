@@ -21,6 +21,14 @@ const Operacoes ops_estruturas[NUM_ESTRUTURAS] = {
 		.insere = (FuncaoInsere) insere_ligada_char,
 		.dados = (FuncaoDados) dados_ligada_char
 	},
+	[HASH] = {
+		.cria = (FuncaoCria) cria_hash,
+		.tamanho = (FuncaoTamanho) tamanho_hash,
+		.display = (FuncaoDisplay) display_hash,
+		.imprime = (FuncaoImprime) imprime_hash,
+		.insere = (FuncaoInsere) insere_hash,
+		.dados = (FuncaoDados) dados_hash
+	}
 };
 
 void * cria_estrutura() {
