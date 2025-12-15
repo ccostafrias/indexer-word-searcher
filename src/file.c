@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <utils.h>
+#include <ctype.h>
 
 #include "estrutura.h"
 #include "file.h"
@@ -38,10 +39,29 @@ void valida_args(int argc, char *argv[]) {
 }
 
 void guarda_palavra(char * palavra, int linha, int * comparacoes) {
-  tolower_string(palavra);
-  trim(palavra, ".,?:;!");
-  
-  insere_estrutura(palavra, linha, comparacoes);
+  char buffer[200];
+  int pos = 0;
+
+  for (int i = 0; palavra[i] != '\0'; i++) {
+    unsigned char c = (unsigned char)palavra[i];
+    
+    if (isalnum(c)) {
+      buffer[pos++] = tolower(c);
+    } 
+    else {
+      if (pos > 0) {
+        buffer[pos] = '\0';
+        insere_estrutura(buffer, linha, comparacoes);
+        
+        pos = 0; 
+      }
+    }
+  }
+
+  if (pos > 0) {
+    buffer[pos] = '\0';
+    insere_estrutura(buffer, linha, comparacoes);
+  }
 }
 
 void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
@@ -61,8 +81,10 @@ void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
     push(linhas, linha_atual);
     copia_ponteiro_linha = linha_atual;
 
-    while ( (palavra = separa_string(&copia_ponteiro_linha, " -/")) ) {
-      guarda_palavra(palavra, contador_linhas, comparacoes);
+    while ( (palavra = separa_string(&copia_ponteiro_linha, "\0")) ) {
+      if (strlen(palavra) > 0) {
+        guarda_palavra(palavra, contador_linhas, comparacoes);
+      } 
     }
 
     contador_linhas++;
