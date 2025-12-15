@@ -8,7 +8,7 @@ Este projeto é um indexador e buscador de palavras implementado em C. Ele lê u
 - **Múltiplas Estruturas de Dados:** Suporta três tipos de estruturas para indexação:
     - Árvore Binária (`arvore`)
     - Lista Ligada (`lista`)
-    - Tabela Hash (`hash`) (Em processo de implementação)
+    - Tabela Hash (`hash`)
 - **Busca Interativa:** Interface de linha de comando para buscar palavras e visualizar resultados.
 - **Estatísticas:** Exibe o número de comparações realizadas durante a indexação e busca.
 

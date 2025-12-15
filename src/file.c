@@ -69,7 +69,6 @@ void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
 
   int contador_linhas = 0;
   char * linha_atual = (char *) malloc((TAMANHO + 1) * sizeof(char));
-  char * copia_ponteiro_linha;
 	char * quebra_de_linha;
 	char * palavra;	
 
@@ -79,13 +78,11 @@ void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
     if( (quebra_de_linha = strrchr(linha_atual, '\n')) ) *quebra_de_linha = 0;
 
     push(linhas, linha_atual);
-    copia_ponteiro_linha = linha_atual;
+    palavra = linha_atual;
 
-    while ( (palavra = separa_string(&copia_ponteiro_linha, "\0")) ) {
-      if (strlen(palavra) > 0) {
-        guarda_palavra(palavra, contador_linhas, comparacoes);
-      } 
-    }
+    if (palavra && strlen(palavra) > 0) {
+      guarda_palavra(palavra, contador_linhas, comparacoes);
+    } 
 
     contador_linhas++;
   }
