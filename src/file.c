@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <utils.h>
+#include <ctype.h>
 
 #include "estrutura.h"
 #include "file.h"
@@ -38,10 +39,29 @@ void valida_args(int argc, char *argv[]) {
 }
 
 void guarda_palavra(char * palavra, int linha, int * comparacoes) {
-  tolower_string(palavra);
-  trim(palavra, ".,?:;!");
-  
-  insere_estrutura(palavra, linha, comparacoes);
+  char buffer[200];
+  int pos = 0;
+
+  for (int i = 0; palavra[i] != '\0'; i++) {
+    unsigned char c = (unsigned char)palavra[i];
+    
+    if (isalnum(c)) {
+      buffer[pos++] = tolower(c);
+    } 
+    else {
+      if (pos > 0) {
+        buffer[pos] = '\0';
+        insere_estrutura(buffer, linha, comparacoes);
+        
+        pos = 0; 
+      }
+    }
+  }
+
+  if (pos > 0) {
+    buffer[pos] = '\0';
+    insere_estrutura(buffer, linha, comparacoes);
+  }
 }
 
 void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
@@ -49,7 +69,6 @@ void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
 
   int contador_linhas = 0;
   char * linha_atual = (char *) malloc((TAMANHO + 1) * sizeof(char));
-  char * copia_ponteiro_linha;
 	char * quebra_de_linha;
 	char * palavra;	
 
@@ -59,11 +78,11 @@ void carrega_dados(FILE * in, int num_linhas, int * comparacoes) {
     if( (quebra_de_linha = strrchr(linha_atual, '\n')) ) *quebra_de_linha = 0;
 
     push(linhas, linha_atual);
-    copia_ponteiro_linha = linha_atual;
+    palavra = linha_atual;
 
-    while ( (palavra = separa_string(&copia_ponteiro_linha, " -/")) ) {
+    if (palavra && strlen(palavra) > 0) {
       guarda_palavra(palavra, contador_linhas, comparacoes);
-    }
+    } 
 
     contador_linhas++;
   }

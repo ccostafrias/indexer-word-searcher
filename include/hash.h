@@ -6,7 +6,7 @@
 #define FALSE 0
 #define TRUE 1
 
-#define TAMANHO_HASH 100
+#define TAMANHO_HASH 500
 
 typedef int Boolean;
 typedef char* ElementoChar;

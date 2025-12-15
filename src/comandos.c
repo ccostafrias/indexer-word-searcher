@@ -103,7 +103,7 @@ void pede_comando() {
     ListaLigadaChar * linhaComandos = cria_lista_ligada_char();
 
     // pegamos a frase recebida e transformamos cada palavras em tokens, que serão armazenados
-    while ( (palavra = separa_string(&cursor, " -/")) ) {
+    while ( (palavra = separa_string(&cursor, " ")) ) {
       tolower_string(palavra);
       insere_ligada_char(linhaComandos, palavra, -1, NULL);
     }

@@ -36,25 +36,6 @@ char * separa_string(char **stringp, const char *delim) {
   return (!s || (s[0] == '\0')) ? NULL : s;
 }
 
-void trim(char *str, const char *trim_chars) {
-  char *end;
-
-  // trim inicio
-  while (*str && strchr(trim_chars, *str)) {
-    str++;
-  }
-
-  // se virou string vazia
-  if (*str == 0)
-    return;
-
-  // trim final
-  end = str + strlen(str) - 1;
-  while (end > str && strchr(trim_chars, *end)) {
-    *end-- = '\0';
-  }
-}
-
 void tolower_string(char *str) {
   for (int i = 0; str[i] != '\0'; i++) {
     str[i] = tolower(str[i]);
